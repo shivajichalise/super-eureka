@@ -68,4 +68,15 @@ class ArticleController extends Controller
   {
     return Article::destroy($id);
   }
+  
+  /**
+   * Search specified resource from storage.
+   *
+   * @param  str  $title
+   * @return \Illuminate\Http\Response
+   */
+  public function search($title)
+  {
+    return Article::where('title', 'like', '%'.$title.'%')->get();
+  }
 }
