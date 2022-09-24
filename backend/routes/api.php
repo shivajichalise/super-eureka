@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 // Public Routes
 Route::get('/articles/search/{title}', [ArticleController::class, 'search']);
 Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/articles/latest', [ArticleController::class, 'latest']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
 
 // For User

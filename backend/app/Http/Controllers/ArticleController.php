@@ -79,4 +79,14 @@ class ArticleController extends Controller
   {
     return Article::where('title', 'like', '%'.$title.'%')->get();
   }
+  
+  /**
+   * Fetch latest resource from storage.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function latest()
+  {
+    return Article::orderBy('created_at', 'desc')->get();
+  }
 }
