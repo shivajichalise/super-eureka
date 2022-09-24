@@ -9,7 +9,7 @@ export const Navbar = () => {
   }
 
   return (
-    <div className="relative container mx-auto p-7">
+    <div className="relative">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="pt-2">
@@ -39,6 +39,11 @@ export const Navbar = () => {
           <a href="#" className="hover:text-green">Latest</a>
           <a href="#" className="hover:text-green">About</a>
         </div>
+      </div>
+
+      {/* Horizontal Dash Line */}
+      <div className="my-5">
+        <hr />
       </div>
     </div>
   )
