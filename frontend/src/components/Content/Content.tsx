@@ -1,14 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Pagination} from '../Pagination/Pagination'
 import axios from 'axios'
-
-type Article = {
-  id: number,
-  title: string,
-  text: string,
-  created_at: string,
-  updated_at: string
-}
+import {Article} from '../../constants/Article.model'
 
 export const Content = () => {
   const [articles, setArticles] = useState<Article[]>([])
