@@ -1,14 +1,15 @@
-import {Navbar} from './components/Navbar/Navbar'
-import {Body} from './components/Body/Body'
-import {Footer} from './components/Footer/Footer'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {Home} from './pages/Home'
+import {Login} from './pages/Login'
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Body />
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 

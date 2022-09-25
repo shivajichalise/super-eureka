@@ -22,7 +22,7 @@ export const Navbar = () => {
           <a href="#" className="hover:text-green">About</a>
         </div>
 
-        <Button value="Contact" link="#" />
+        <Button value="Contact" link="#" roundness="2xl" height="2" hidden={true} />
 
         {/* Hambuger Icon */}
         <button id="menu-btn" className={(isMenuOpen ? 'open ' : '') + "block hamburger focus:outline-none md:hidden"} onClick={menuHandler}>
