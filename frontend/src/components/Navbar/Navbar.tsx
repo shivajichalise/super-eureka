@@ -1,7 +1,8 @@
 import {useState} from 'react'
 import {Button} from '../Button/Button'
 import './Navbar.css'
-import {isLoggedIn} from '../../utils/auth'
+import {isLoggedIn, logout} from '../../utils/auth'
+import {http} from '../../utils/http'
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -22,7 +23,7 @@ export const Navbar = () => {
           <a href="!#" className="hover:text-green">Latest</a>
           <a href="!#" className="hover:text-green">About</a>
           {(isLoggedIn() ?
-            <a href="/logout" className="hover:text-green">Logout</a>
+            <a className="hover:text-green" onClick={() => http().post('/api/logout').then(() => logout())}>Logout</a>
             :
             <a href="/login" className="hover:text-green">Login</a>
           )}
@@ -42,8 +43,8 @@ export const Navbar = () => {
       <div className="md:hidden">
         <div id="menu"
           className={(isMenuOpen ? '' : 'hidden ') + "absolute flex flex-col items-center self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"}>
-          <a href="#" className="hover:text-green">Latest</a>
-          <a href="#" className="hover:text-green">About</a>
+          <a href="!#" className="hover:text-green">Latest</a>
+          <a href="!#" className="hover:text-green">About</a>
         </div>
       </div>
 
