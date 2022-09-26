@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import {Button} from '../Button/Button'
 import './Navbar.css'
+import {isLoggedIn} from '../../utils/auth'
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -18,8 +19,13 @@ export const Navbar = () => {
 
         {/* Menu Items */}
         <div className="hidden space-x-6 md:flex">
-          <a href="#" className="hover:text-green">Latest</a>
-          <a href="#" className="hover:text-green">About</a>
+          <a href="!#" className="hover:text-green">Latest</a>
+          <a href="!#" className="hover:text-green">About</a>
+          {(isLoggedIn() ?
+            <a href="/logout" className="hover:text-green">Logout</a>
+            :
+            <a href="/login" className="hover:text-green">Login</a>
+          )}
         </div>
 
         <Button value="Contact" link="#" roundness="2xl" height="2" hidden={true} />
