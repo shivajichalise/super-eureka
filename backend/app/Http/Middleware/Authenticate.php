@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
@@ -17,5 +18,18 @@ class Authenticate extends Middleware
         if (! $request->expectsJson()) {
             return route('login');
         }
+    }
+
+    // Overriding handle method from Middleware
+    public function handle($request, Closure $next, ...$guards){
+
+      // Faking the bearer header for security
+      if($sanctum = $request->cookie('sanctum')){
+        $request->headers->set('Authorization', 'Bearer ' . $sanctum);
+      }
+
+      $this->authenticate($request, $guards);
+
+      return $next($request);
     }
 }

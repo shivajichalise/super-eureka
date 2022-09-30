@@ -62,13 +62,15 @@ class UserController extends Controller
     }
 
     $token = $user->createToken('MYAPPTOEKN')->plainTextToken;
+    
+    $cookie = cookie('sanctum', $token, 60*24);
 
     $response = [
       'user' => $user,
       'token' => $token
     ];
 
-    return response($response, 201);
+    return response($response, 201)->withCookie($cookie);
   }
 
 
@@ -84,5 +86,16 @@ class UserController extends Controller
     return [
       'message' => 'Logged out'
     ];
+  }
+
+
+  /**
+   * Return currently logged in user.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return Response 
+   */
+  public function user(Request $request){
+    return $request->user();
   }
 }
