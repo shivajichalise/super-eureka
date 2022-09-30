@@ -1,6 +1,5 @@
 import {useState} from 'react'
 import {http} from '../../utils/http'
-import {login} from '../../utils/auth'
 
 import {Button} from "../Button/Button"
 import woman from '../../assets/woman.jpg'
@@ -17,16 +16,13 @@ export const LoginForm = () => {
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault()
 
-    http().get('/sanctum/csrf-cookie').then(() => {
-      http().post('/api/login', formInput).then(response => {
-        if (response.data.error) {
-          console.log(response.data.error)
-        } else {
-          const {user} = response.data
-          login(user.email)
-          window.location.replace('/')
-        }
-      })
+    http().post('/api/login', formInput).then(response => {
+      if (response.data.error) {
+        console.log(response.data.error)
+      } else {
+        // const {user} = response.data
+        window.location.replace('/')
+      }
     })
   }
 

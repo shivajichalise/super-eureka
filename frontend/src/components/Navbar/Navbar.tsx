@@ -1,14 +1,43 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
 import {Button} from '../Button/Button'
 import './Navbar.css'
-import {isLoggedIn, logout} from '../../utils/auth'
 import {http} from '../../utils/http'
 
 export const Navbar = () => {
+
+  const [user, setUser] = useState(null)
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuHandler = () => {
     setIsMenuOpen(!isMenuOpen)
   }
+
+  const logoutHandler = async () => {
+    await http().post('/api/logout').then(response => {
+      if (response.data.error) {
+        console.log(response.data.error)
+      } else {
+        // const {user} = response.data
+        window.location.replace('/')
+      }
+    })
+  }
+
+  const fetchUser = async () => {
+    try {
+      const response = await http().get('/api/user')
+      const user = response.data
+      setUser(user)
+    } catch (e) {
+      setUser(null)
+      console.log('User not logged in')
+    }
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   return (
     <div className="relative container mx-auto p-7">
@@ -22,8 +51,8 @@ export const Navbar = () => {
         <div className="hidden space-x-6 md:flex">
           <a href="!#" className="hover:text-green">Latest</a>
           <a href="!#" className="hover:text-green">About</a>
-          {(isLoggedIn() ?
-            <a className="hover:text-green" onClick={() => http().post('/api/logout').then(() => logout())}>Logout</a>
+          {(user ?
+            <Link to="/" onClick={logoutHandler} className="hover:text-green">Logout</Link>
             :
             <a href="/login" className="hover:text-green">Login</a>
           )}

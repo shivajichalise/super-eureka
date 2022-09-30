@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
@@ -66,7 +67,7 @@ class UserController extends Controller
     $cookie = cookie('sanctum', $token, 60*24);
 
     $response = [
-      'user' => $user,
+      /* 'user' => $user, */
       'token' => $token
     ];
 
@@ -81,11 +82,15 @@ class UserController extends Controller
    * @return Response 
    */
   public function logout(Request $request){
+    
+    $cookie = Cookie::forget('sanctum');
+    
     auth()->user()->tokens()->delete();
 
-    return [
+    return response([
       'message' => 'Logged out'
-    ];
+    ])->withCookie($cookie);
+
   }
 
 
@@ -96,6 +101,7 @@ class UserController extends Controller
    * @return Response 
    */
   public function user(Request $request){
-    return $request->user();
+      return $request->user();
   }
+
 }
