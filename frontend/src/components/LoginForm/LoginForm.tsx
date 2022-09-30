@@ -2,6 +2,7 @@ import {useState} from 'react'
 import {http} from '../../utils/http'
 import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
+import {login} from '../../utils/auth'
 
 export const LoginForm = () => {
 
@@ -19,7 +20,9 @@ export const LoginForm = () => {
       if (response.data.error) {
         console.log(response.data.error)
       } else {
-        // const {user} = response.data
+        const {user} = response.data
+        // console.log(user)
+        login(user.name)
         window.location.replace('/')
       }
     })

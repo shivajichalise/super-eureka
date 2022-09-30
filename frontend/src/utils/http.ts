@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {logout} from './auth'
 
 export const http = () => {
   const http = axios.create({
@@ -11,7 +12,7 @@ export const http = () => {
 
   http.interceptors.response.use(response => response, error => {
     if (error.response.status === 401) {
-      // logout()
+      logout()
       return Promise.reject()
     }
   })

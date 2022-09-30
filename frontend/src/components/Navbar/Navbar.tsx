@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import './Navbar.css'
 import {http} from '../../utils/http'
+import {logout} from '../../utils/auth'
+import {isLoggedIn} from '../../utils/auth'
 
 export const Navbar = () => {
 
@@ -17,6 +19,7 @@ export const Navbar = () => {
       if (response.data.error) {
         console.log(response.data.error)
       } else {
+        logout()
         // const {user} = response.data
         window.location.replace('/')
       }
@@ -30,12 +33,13 @@ export const Navbar = () => {
       setUser(user)
     } catch (e) {
       setUser(null)
-      console.log('User not logged in')
     }
   }
 
   useEffect(() => {
-    fetchUser()
+    if (isLoggedIn()) {
+      fetchUser()
+    }
   }, [])
 
   return (

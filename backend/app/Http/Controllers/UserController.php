@@ -67,7 +67,7 @@ class UserController extends Controller
     $cookie = cookie('sanctum', $token, 60*24);
 
     $response = [
-      /* 'user' => $user, */
+      'user' => $user,
       'token' => $token
     ];
 
