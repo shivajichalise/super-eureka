@@ -22,7 +22,7 @@ export const LoginForm = () => {
       } else {
         const {user} = response.data
         // console.log(user)
-        login(user.name)
+        login(user.email)
         window.location.replace('/')
       }
     })
@@ -66,7 +66,7 @@ export const LoginForm = () => {
                   </div>
 
                   <div className="mt-4 flex space-y-1 w-5/12 justify-center">
-                    <a href="!#"><p className="text-xs text-green">Don't have an account ?  Sign up </p> </a>
+                    <a href="/register"><p className="text-xs text-green">Don't have an account ?  Sign up </p> </a>
                   </div>
 
                 </div>
