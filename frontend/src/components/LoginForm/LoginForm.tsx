@@ -1,8 +1,8 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {http} from '../../utils/http'
 import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
-import {login} from '../../utils/auth'
+import {login, isLoggedIn} from '../../utils/auth'
 
 export const LoginForm = () => {
 
@@ -26,6 +26,10 @@ export const LoginForm = () => {
         window.location.replace('/')
       }
     })
+  }
+
+  if (isLoggedIn()) {
+    window.location.replace('/')
   }
 
   return (

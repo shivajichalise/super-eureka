@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import {http} from '../../utils/http'
+import {isLoggedIn} from '../../utils/auth'
 import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
 
@@ -23,6 +24,10 @@ export const RegisterForm = () => {
         window.location.replace('/login')
       }
     })
+  }
+
+  if (isLoggedIn()) {
+    window.location.replace('/')
   }
 
   return (
