@@ -1,15 +1,9 @@
-type ButtonProps = {
-  value: string
-  link: string
-  roundness: string
-  height: string
-  hidden: boolean
-}
+import {ButtonProps} from '../../constants/Button.model'
 
 export const Button = (props: ButtonProps) => {
   return (
-    <a href={props.link} className={(props.hidden ? "hidden " : '') + "md:block p-" + props.height + " px-6 text-white bg-green rounded-" + props.roundness + " baseline hover:bg-lightGreen transition ease-in-out duration-200"}>
+    <button type="submit" className={(props.hidden ? "hidden " : '') + "md:block p-2 px-6 text-white bg-green rounded-2xl baseline hover:bg-lightGreen transition ease-in-out duration-200 w-full"}>
       {props.value}
-    </a >
+    </button >
   )
 }

@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
-import {Button} from '../Button/Button'
 import './Navbar.css'
 import {http} from '../../utils/http'
 
@@ -58,7 +57,7 @@ export const Navbar = () => {
           )}
         </div>
 
-        <Button value="Contact" link="#" roundness="2xl" height="2" hidden={true} />
+        <Link to="/contact" className="hidden p-2 px-6 text-white bg-green rounded-2xl baseline hover:bg-lightGreen transition ease-in-out duration-200 md:block">Contact</Link>
 
         {/* Hambuger Icon */}
         <button id="menu-btn" className={(isMenuOpen ? 'open ' : '') + "block hamburger focus:outline-none md:hidden"} onClick={menuHandler}>

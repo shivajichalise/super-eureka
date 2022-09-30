@@ -1,7 +1,6 @@
 import {useState} from 'react'
 import {http} from '../../utils/http'
-
-import {Button} from "../Button/Button"
+import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
 
 export const LoginForm = () => {
@@ -60,8 +59,7 @@ export const LoginForm = () => {
                   </div>
 
                   <div className="mt-3 w-1/2 text-sm">
-                    <button type="submit">Sign in</button>
-                    {/* <Button link="/login" value="Sign in" roundness="lg" height="1" hidden={false} /> */}
+                    <Button value="Sign in" hidden={false} />
                   </div>
 
                   <div className="mt-4 flex space-y-1 w-5/12 justify-center">
