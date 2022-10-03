@@ -4,8 +4,12 @@ import './Navbar.css'
 import {http} from '../../utils/http'
 import {logout} from '../../utils/auth'
 import {isLoggedIn} from '../../utils/auth'
+import {Button} from '../Button/Button'
+import {FaUserCircle} from 'react-icons/fa'
 
 export const Navbar = () => {
+
+  const [dropdownState, setDropdownState] = useState(false)
 
   const [user, setUser] = useState(null)
 
@@ -26,6 +30,10 @@ export const Navbar = () => {
     })
   }
 
+  const dropdownToggle = () => {
+    setDropdownState(!dropdownState)
+  }
+
   const fetchUser = async () => {
     try {
       const response = await http().get('/api/user')
@@ -35,6 +43,7 @@ export const Navbar = () => {
       setUser(null)
     }
   }
+
 
   useEffect(() => {
     if (isLoggedIn()) {
@@ -55,9 +64,25 @@ export const Navbar = () => {
           <a href="!#" className="hover:text-green">Latest</a>
           <a href="!#" className="hover:text-green">About</a>
           {(user ?
-            <Link to="/" onClick={logoutHandler} className="hover:text-green">Logout</Link>
+            <div className="relative">
+              <button className={(dropdownState ? 'text-green ' : '') + "hover:text-green outline-none focus:outline-none"} onClick={dropdownToggle}>
+
+                <FaUserCircle size={20} />
+
+              </button>
+              <div className={(dropdownState ? 'block ' : 'hidden ') + "block lg:absolute bg-white p-2 rounded-md left-0 mt-2"}>
+                <ul className="space-y-2 md:w-max">
+                  <li>
+                    <Link to="/profile" className="flex p-2 hover:bg-gray rounded-md">Profile</Link>
+                  </li>
+                  <li>
+                    <Link to="/" onClick={logoutHandler} className="flex p-2 hover:bg-gray rounded-md">Logout</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
             :
-            <a href="/login" className="hover:text-green">Login</a>
+            <Link to="/login" className="hover:text-green">Login</Link>
           )}
         </div>
 
