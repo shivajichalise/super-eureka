@@ -27,9 +27,7 @@ export const LoginForm = () => {
         const {user} = response.data
         // console.log(user)
         auth.login(user)
-        // login(user.email)
         navigate('/', {replace: true})
-        // window.location.replace('/')
       }
     })
   }

@@ -12,7 +12,6 @@ export const Navbar = () => {
 
   const [dropdownState, setDropdownState] = useState(false)
 
-
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuHandler = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -22,25 +21,6 @@ export const Navbar = () => {
     setDropdownState(!dropdownState)
   }
 
-  // my old logic
-  // const [user, setUser] = useState(null)
-  
-  // const fetchUser = async () => {
-  //   try {
-  //     const response = await http().get('/api/user')
-  //     const user = response.data
-  //     setUser(user)
-  //   } catch (e) {
-  //     setUser(null)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (auth.user) {
-  //     fetchUser()
-  //   }
-  // }, [auth.user])
-  
   const logoutHandler = async () => {
     await http().post('/api/logout').then(response => {
       if (response.data.error) {
