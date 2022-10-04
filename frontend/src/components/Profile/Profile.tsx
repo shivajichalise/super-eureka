@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {MdDashboard, MdDelete} from 'react-icons/md'
 import {FaUsers, FaSignOutAlt} from 'react-icons/fa'
 import {BsFillFileEarmarkPostFill as PostIcon, BsSunglasses} from 'react-icons/bs'
@@ -7,10 +7,15 @@ import {BiSearchAlt, BiEdit} from 'react-icons/bi'
 import {Button} from '../Button/Button'
 import {Article} from '../../constants/Article.model'
 import {Pagination} from '../Pagination/Pagination'
-import {logoutHandler} from '../../utils/auth'
 import axios from 'axios'
+import {useAuth} from '../../utils/useAuth'
+import {http} from '../../utils/http'
 
 export const Profile = () => {
+
+  const auth = useAuth()
+  const navigate = useNavigate()
+
   const [articles, setArticles] = useState<Article[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [articlesPerPage] = useState(5)
@@ -27,6 +32,18 @@ export const Profile = () => {
 
   // change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
+
+  const logoutHandler = async () => {
+    await http().post('/api/logout').then(response => {
+      if (response.data.error) {
+        console.log(response.data.error)
+      } else {
+        auth.logout()
+        navigate('/', {replace: true})
+        // const {user} = response.data
+      }
+    })
+  }
 
   useEffect(() => {
     getArticles()

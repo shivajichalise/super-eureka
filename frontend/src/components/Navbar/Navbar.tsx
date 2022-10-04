@@ -1,16 +1,17 @@
-import {useEffect, useState} from 'react'
-import {Link} from 'react-router-dom'
+import {useState} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
 import './Navbar.css'
 import {http} from '../../utils/http'
-import {logoutHandler} from '../../utils/auth'
-import {isLoggedIn} from '../../utils/auth'
 import {FaUserCircle} from 'react-icons/fa'
+import {useAuth} from '../../utils/useAuth'
 
 export const Navbar = () => {
 
+  const auth = useAuth()
+  const navigate = useNavigate()
+
   const [dropdownState, setDropdownState] = useState(false)
 
-  const [user, setUser] = useState(null)
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuHandler = () => {
@@ -21,22 +22,37 @@ export const Navbar = () => {
     setDropdownState(!dropdownState)
   }
 
-  const fetchUser = async () => {
-    try {
-      const response = await http().get('/api/user')
-      const user = response.data
-      setUser(user)
-    } catch (e) {
-      setUser(null)
-    }
+  // my old logic
+  // const [user, setUser] = useState(null)
+  
+  // const fetchUser = async () => {
+  //   try {
+  //     const response = await http().get('/api/user')
+  //     const user = response.data
+  //     setUser(user)
+  //   } catch (e) {
+  //     setUser(null)
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (auth.user) {
+  //     fetchUser()
+  //   }
+  // }, [auth.user])
+  
+  const logoutHandler = async () => {
+    await http().post('/api/logout').then(response => {
+      if (response.data.error) {
+        console.log(response.data.error)
+      } else {
+        auth.logout()
+        navigate('/', {replace: true})
+        // const {user} = response.data
+      }
+    })
   }
 
-
-  useEffect(() => {
-    if (isLoggedIn()) {
-      fetchUser()
-    }
-  }, [])
 
   return (
     <div className="relative container mx-auto p-7">
@@ -50,7 +66,7 @@ export const Navbar = () => {
         <div className="hidden space-x-6 md:flex">
           <a href="!#" className="hover:text-green">Latest</a>
           <a href="!#" className="hover:text-green">About</a>
-          {(user ?
+          {(auth.user ?
             <div className="relative">
               <button className={(dropdownState ? 'text-green ' : '') + "hover:text-green outline-none focus:outline-none"} onClick={dropdownToggle}>
 

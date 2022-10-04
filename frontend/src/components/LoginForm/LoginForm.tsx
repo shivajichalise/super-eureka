@@ -1,10 +1,14 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 import {http} from '../../utils/http'
 import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
-import {login, isLoggedIn} from '../../utils/auth'
+import {useAuth} from '../../utils/useAuth'
 
 export const LoginForm = () => {
+
+  const auth = useAuth()
+  const navigate = useNavigate()
 
   const [formInput, setFormInput] = useState({email: '', password: ''})
 
@@ -22,14 +26,12 @@ export const LoginForm = () => {
       } else {
         const {user} = response.data
         // console.log(user)
-        login(user.email)
-        window.location.replace('/')
+        auth.login(user)
+        // login(user.email)
+        navigate('/', {replace: true})
+        // window.location.replace('/')
       }
     })
-  }
-
-  if (isLoggedIn()) {
-    window.location.replace('/')
   }
 
   return (

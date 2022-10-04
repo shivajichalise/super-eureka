@@ -22,14 +22,3 @@ export const isLoggedIn = (reqCookies = null) => {
   return !!cookie.parse(reqCookies).loggedin_cookie
 }
 
-export const logoutHandler = async () => {
-  await http().post('/api/logout').then(response => {
-    if (response.data.error) {
-      console.log(response.data.error)
-    } else {
-      logout()
-      // const {user} = response.data
-      window.location.replace('/')
-    }
-  })
-}

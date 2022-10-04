@@ -1,10 +1,14 @@
+import {useNavigate} from 'react-router-dom'
 import {useState} from 'react'
 import {http} from '../../utils/http'
-import {isLoggedIn} from '../../utils/auth'
 import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
+import {useAuth} from '../../utils/useAuth'
 
 export const RegisterForm = () => {
+
+  const auth = useAuth()
+  const navigate = useNavigate()
 
   const [formInput, setFormInput] = useState({name: '', email: '', password: '', password_confirmation: ''})
 
@@ -21,13 +25,13 @@ export const RegisterForm = () => {
       if (response.data.error) {
         console.log(response.data.error)
       } else {
-        window.location.replace('/login')
+        navigate('/login')
       }
     })
   }
 
-  if (isLoggedIn()) {
-    window.location.replace('/')
+  if (auth.user) {
+    navigate('/')
   }
 
   return (
