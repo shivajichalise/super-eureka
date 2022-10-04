@@ -1,3 +1,4 @@
+import {http} from './http'
 import Cookies from 'js-cookie'
 import cookie from 'cookie'
 
@@ -19,4 +20,16 @@ export const isLoggedIn = (reqCookies = null) => {
 
   // otherwise get cookie from server
   return !!cookie.parse(reqCookies).loggedin_cookie
+}
+
+export const logoutHandler = async () => {
+  await http().post('/api/logout').then(response => {
+    if (response.data.error) {
+      console.log(response.data.error)
+    } else {
+      logout()
+      // const {user} = response.data
+      window.location.replace('/')
+    }
+  })
 }

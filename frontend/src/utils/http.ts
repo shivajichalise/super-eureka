@@ -15,6 +15,7 @@ export const http = () => {
       logout()
       return Promise.reject()
     }
+    return Promise.reject(error)
   })
 
   return http

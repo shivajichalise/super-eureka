@@ -2,9 +2,8 @@ import {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import './Navbar.css'
 import {http} from '../../utils/http'
-import {logout} from '../../utils/auth'
+import {logoutHandler} from '../../utils/auth'
 import {isLoggedIn} from '../../utils/auth'
-import {Button} from '../Button/Button'
 import {FaUserCircle} from 'react-icons/fa'
 
 export const Navbar = () => {
@@ -16,18 +15,6 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuHandler = () => {
     setIsMenuOpen(!isMenuOpen)
-  }
-
-  const logoutHandler = async () => {
-    await http().post('/api/logout').then(response => {
-      if (response.data.error) {
-        console.log(response.data.error)
-      } else {
-        logout()
-        // const {user} = response.data
-        window.location.replace('/')
-      }
-    })
   }
 
   const dropdownToggle = () => {

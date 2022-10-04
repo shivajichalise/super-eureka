@@ -20,10 +20,10 @@ export const Pagination = (props: PaginationProps) => {
         {pageNumbers.map((pageNumber) => {
           return (
             <li key={pageNumber}  >
-              <a
-                href="!#" className="rounded-md px-4 py-2 text-gray bg-green transition duration-300 ease-in-out hover:bg-lightGreen" onClick={() => paginate(pageNumber)}>
+              <button
+                className="rounded-md px-4 py-2 text-gray bg-green transition duration-300 ease-in-out hover:bg-lightGreen" onClick={() => paginate(pageNumber)}>
                 {pageNumber}
-              </a>
+              </button>
             </li>
           )
         })}

@@ -7,6 +7,7 @@ import {BiSearchAlt, BiEdit} from 'react-icons/bi'
 import {Button} from '../Button/Button'
 import {Article} from '../../constants/Article.model'
 import {Pagination} from '../Pagination/Pagination'
+import {logoutHandler} from '../../utils/auth'
 import axios from 'axios'
 
 export const Profile = () => {
@@ -54,7 +55,7 @@ export const Profile = () => {
                 <FaUsers className="mt-1" /> <span> Users </span>
               </li>
 
-              <li className="flex rounded-md space-x-2 hover:text-white p-2 hover:bg-lightGreen cursor-pointer">
+              <li className="flex rounded-md space-x-2 hover:text-white p-2 hover:bg-lightGreen cursor-pointer" onClick={logoutHandler}>
                 <FaSignOutAlt className="mt-1" /> <span> Logout </span>
               </li>
             </ul>
