@@ -1,6 +1,7 @@
 import {useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {Navigate, useNavigate, useLocation} from 'react-router-dom'
 import {http} from '../../utils/http'
+import {login} from '../../utils/auth'
 import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
 import {useAuth} from '../../utils/useAuth'
@@ -9,6 +10,9 @@ export const LoginForm = () => {
 
   const auth = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const redirectPath = location.state?.path || '/'
 
   const [formInput, setFormInput] = useState({email: '', password: ''})
 
@@ -27,9 +31,14 @@ export const LoginForm = () => {
         const {user} = response.data
         // console.log(user)
         auth.login(user)
-        navigate('/', {replace: true})
+        login(user.name)
+        navigate(redirectPath, {replace: true})
       }
     })
+  }
+
+  if (auth.user) {
+    return <Navigate to="/profile" />
   }
 
   return (

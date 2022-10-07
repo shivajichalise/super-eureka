@@ -1,4 +1,4 @@
-import {http} from './http'
+// import {http} from './http'
 import Cookies from 'js-cookie'
 import cookie from 'cookie'
 

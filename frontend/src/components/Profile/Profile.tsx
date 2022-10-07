@@ -10,6 +10,7 @@ import {Pagination} from '../Pagination/Pagination'
 import axios from 'axios'
 import {useAuth} from '../../utils/useAuth'
 import {http} from '../../utils/http'
+import {logout} from '../../utils/auth'
 
 export const Profile = () => {
 
@@ -43,6 +44,7 @@ export const Profile = () => {
         console.log(response.data.error)
       } else {
         auth.logout()
+        logout()
         navigate('/', {replace: true})
         // const {user} = response.data
       }

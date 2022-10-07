@@ -2,6 +2,7 @@ import {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import './Navbar.css'
 import {http} from '../../utils/http'
+import {logout} from '../../utils/auth'
 import {FaUserCircle} from 'react-icons/fa'
 import {useAuth} from '../../utils/useAuth'
 
@@ -27,6 +28,7 @@ export const Navbar = () => {
         console.log(response.data.error)
       } else {
         auth.logout()
+        logout()
         navigate('/', {replace: true})
         // const {user} = response.data
       }
