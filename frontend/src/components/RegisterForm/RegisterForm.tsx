@@ -58,6 +58,12 @@ export const RegisterForm = () => {
                   </div>
 
                   <div className="mt-2 flex flex-col space-y-1 items-start">
+                    <label htmlFor="username" className="text-xs">Username</label>
+                    <input type="text" placeholder="Username" name="username" className="border border-solid border-lightGreen outline-green rounded-lg px-2 py-1 text-sm transition
+          ease-in-out" onChange={formInputHandler} />
+                  </div>
+
+                  <div className="mt-2 flex flex-col space-y-1 items-start">
                     <label htmlFor="email" className="text-xs">Email</label>
                     <input type="text" placeholder="Email" name="email" className="border border-solid border-lightGreen outline-green rounded-lg px-2 py-1 text-sm transition
           ease-in-out" onChange={formInputHandler} />

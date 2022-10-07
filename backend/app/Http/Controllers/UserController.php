@@ -10,22 +10,25 @@ use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
-  
+
   /**
    * Register a newly created user in storage.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function register(Request $request){
+  public function register(Request $request)
+  {
     $fields = $request->validate([
       'name' => 'required|string',
+      'username' => 'required|string|unique:users,username',
       'email' => 'required|string|unique:users,email',
       'password' => 'required|string|confirmed'
     ]);
 
     $user = User::create([
       'name' => $fields['name'],
+      'username' => $fields['username'],
       'email' => $fields['email'],
       'password' => bcrypt($fields['password'])
     ]);
@@ -39,14 +42,15 @@ class UserController extends Controller
 
     return response($response, 201);
   }
-  
+
   /**
    * Login for registered User.
    *
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function login(Request $request){
+  public function login(Request $request)
+  {
     $fields = $request->validate([
       'email' => 'required|string',
       'password' => 'required|string'
@@ -56,15 +60,15 @@ class UserController extends Controller
     $user = User::where('email', $fields['email'])->first();
 
     // Password check
-    if(!$user || !Hash::check($fields['password'], $user->password)){
+    if (!$user || !Hash::check($fields['password'], $user->password)) {
       return response([
         'message' => 'User not found'
       ], 401);
     }
 
     $token = $user->createToken('MYAPPTOEKN')->plainTextToken;
-    
-    $cookie = cookie('sanctum', $token, 60*24);
+
+    $cookie = cookie('sanctum', $token, 60 * 24);
 
     $response = [
       'user' => $user,
@@ -81,16 +85,16 @@ class UserController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return Response 
    */
-  public function logout(Request $request){
-    
+  public function logout(Request $request)
+  {
+
     $cookie = Cookie::forget('sanctum');
-    
+
     auth()->user()->tokens()->delete();
 
     return response([
       'message' => 'Logged out'
     ])->withCookie($cookie);
-
   }
 
 
@@ -100,8 +104,8 @@ class UserController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return Response 
    */
-  public function user(Request $request){
-      return $request->user();
+  public function user(Request $request)
+  {
+    return $request->user();
   }
-
 }
