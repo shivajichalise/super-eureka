@@ -19,19 +19,17 @@ use Illuminate\Support\Facades\Route;
 /* Route::resource('articles', ArticleController::class); */
 
 // Public Routes
-Route::get('/articles/search/{title}', [ArticleController::class, 'search']);
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/articles/latest', [ArticleController::class, 'latest']);
+Route::get('/articles/search/{title}', [ArticleController::class, 'search']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
 
 // For User
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
-
 // Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-  Route::get('/articles/{user_id}', [ArticleController::class, 'get']);
   Route::post('/articles', [ArticleController::class, 'store']);
   Route::put('/articles/{id}', [ArticleController::class, 'update']);
   Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);

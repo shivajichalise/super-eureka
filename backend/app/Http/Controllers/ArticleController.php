@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -88,16 +89,5 @@ class ArticleController extends Controller
   public function latest()
   {
     return Article::orderBy('created_at', 'desc')->get();
-  }
-
-  /**
-   * Fetch only resources that belong to current user.
-   *
-   * @param  int  $user_id
-   * @return \Illuminate\Http\Response
-   */
-  public function get($user_id)
-  {
-    return auth()->user()->articles;
   }
 }
