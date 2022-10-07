@@ -68,7 +68,7 @@ class ArticleController extends Controller
   {
     return Article::destroy($id);
   }
-  
+
   /**
    * Search specified resource from storage.
    *
@@ -77,9 +77,9 @@ class ArticleController extends Controller
    */
   public function search($title)
   {
-    return Article::where('title', 'like', '%'.$title.'%')->get();
+    return Article::where('title', 'like', '%' . $title . '%')->get();
   }
-  
+
   /**
    * Fetch latest resource from storage.
    *
@@ -88,5 +88,16 @@ class ArticleController extends Controller
   public function latest()
   {
     return Article::orderBy('created_at', 'desc')->get();
+  }
+
+  /**
+   * Fetch only resources that belong to current user.
+   *
+   * @param  int  $user_id
+   * @return \Illuminate\Http\Response
+   */
+  public function get($user_id)
+  {
+    return auth()->user()->articles;
   }
 }

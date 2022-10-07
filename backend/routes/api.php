@@ -31,10 +31,11 @@ Route::post('/login', [UserController::class, 'login']);
 
 // Protected Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+  Route::get('/articles/{user_id}', [ArticleController::class, 'get']);
   Route::post('/articles', [ArticleController::class, 'store']);
   Route::put('/articles/{id}', [ArticleController::class, 'update']);
   Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
-  
+
   // For User
   Route::get('/user', [UserController::class, 'user']);
   Route::post('/logout', [UserController::class, 'logout']);
