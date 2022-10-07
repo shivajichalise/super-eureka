@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {MdDashboard, MdDelete} from 'react-icons/md'
-import {FaUsers, FaSignOutAlt} from 'react-icons/fa'
+import {FaUsers, FaSignOutAlt, FaUserCircle} from 'react-icons/fa'
 import {BsFillFileEarmarkPostFill as PostIcon, BsSunglasses} from 'react-icons/bs'
 import {BiSearchAlt, BiEdit} from 'react-icons/bi'
 import {Button} from '../Button/Button'
@@ -22,7 +22,11 @@ export const Profile = () => {
 
   const getArticles = async () => {
     const {data} = await axios.get('/api/articles')
-    setArticles(data)
+    setArticles(
+      data.filter((obj: Article) => {
+        return obj.user_id === auth.user?.id
+      })
+    )
   }
 
   // get current article
@@ -59,6 +63,10 @@ export const Profile = () => {
 
           <div className="mt-10">
             <ul className="flex flex-col spae-y-3 text-lg text-lightGray font-light">
+
+              <li className="flex rounded-md space-x-2 hover:text-white p-2 hover:bg-lightGreen cursor-pointer">
+                <FaUserCircle className="mt-1" /> <span> {auth.user?.username} </span>
+              </li>
 
               <li className="flex rounded-md space-x-2 hover:text-white p-2 hover:bg-lightGreen cursor-pointer">
                 <MdDashboard className="mt-1" /> <span> Overview </span>
@@ -137,65 +145,6 @@ export const Profile = () => {
             </tbody>
           </table>
 
-          {/*
-          <div classNameName="p-6 flex flex-col">
-
-            <div classNameName="flex justify-between">
-              <label htmlFor="" className="text-sm bg-blue-200">Title</label>
-              <label htmlFor="" className="text-sm">Updated at</label>
-              <label htmlFor="" className="text-sm">Created at</label>
-              <label htmlFor="" className="text-sm">Options</label>
-            </div>
-
-            <div className="flex justify-between">
-
-              <div className="flex flex-col bg-red-200">
-                {currentArticles.map(article => {
-                  return (
-                    <h1 className="flex text-2xl mt-3 h-32 items-center" key={article.id}>{article.title}</h1>
-                  )
-                })}
-              </div>
-
-              <div className="flex flex-col bg-green">
-                {currentArticles.map(article => {
-                  const updated_at = new Date(article.updated_at)
-                  return (
-                    <h1 className="flex text-md text-lightGray mt-3 h-32 items-center" key={article.id}>{updated_at.toDateString()}</h1>
-                  )
-                })}
-              </div>
-
-              <div className="flex flex-col bg-yellow-200">
-                {currentArticles.map(article => {
-                  const created_at = new Date(article.created_at)
-                  return (
-                    <h1 className="flex text-md text-lightGray mt-3 h-32 items-center" key={article.id}>{created_at.toDateString()}</h1>
-                  )
-                })}
-              </div>
-
-              <div className="flex flex-col">
-                {currentArticles.map(article => {
-                  return (
-                    <div className="flex text-md mt-3 h-32 space-x-2 items-center" key={article.id}>
-                      <div className="bg-blue-600 p-1 rounded-md">
-                        <BsSunglasses size={17} className="text-gray" />
-                      </div>
-                      <div className="bg-green p-1 rounded-md">
-                        <BiEdit size={17} className="text-gray" />
-                      </div>
-                      <div className="bg-red-600 p-1 rounded-md">
-                        <MdDelete size={17} className="text-gray" />
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-
-          </div>
-          */}
           <Pagination articlesPerPage={articlesPerPage} totalArticles={articles.length} paginate={paginate} />
         </div>
       </div>
