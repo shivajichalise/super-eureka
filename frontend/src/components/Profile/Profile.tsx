@@ -14,6 +14,7 @@ import {logout} from '../../utils/auth'
 
 export const Profile = () => {
 
+  const [article, setArticle] = useState<Article | null>(null)
   const [openModal, setOpenModal] = useState(false)
   const [modalAction, setModalAction] = useState('Create')
 
@@ -28,9 +29,20 @@ export const Profile = () => {
   const auth = useAuth()
   const navigate = useNavigate()
 
+
   const [articles, setArticles] = useState<Article[]>([])
   const [currentPage, setCurrentPage] = useState(1)
   const [articlesPerPage] = useState(5)
+
+  const getArticleById = async (id: number) => {
+    await http().get('/api/articles/' + id).then(response => {
+      if (response.data.error) {
+        console.log(response.data.error)
+      } else {
+        setArticle(response.data)
+      }
+    })
+  }
 
   const getArticles = async () => {
     const {data} = await axios.get('/api/articles/latest')
@@ -68,12 +80,12 @@ export const Profile = () => {
 
   return (
     <>
-      <ArticleForm action={modalAction} state={openModal} toggleModalHandler={toggleModalHandler} />
+      <ArticleForm action={modalAction} state={openModal} toggleModalHandler={toggleModalHandler} article={article} />
       <div className="relative p-7">
         <div className="flex justify-between">
           <div className="flex flex-col w-1/5  p-3">
             <div className="pt-2">
-              <Link to="/" className="w-full text-2xl">Super Eureka</Link>
+              <Link to="/" className="w-full text-2xl italic">Super Eureka</Link>
             </div>
 
             <div className="mt-10">
@@ -109,7 +121,7 @@ export const Profile = () => {
                 <h1 className="font-bold text-lg tracking-wide">Articles</h1>
                 <p className="text-lightGray text-xs">Below listed articles are yours</p>
               </div>
-              <BsPlusSquareFill size={25} className="text-green cursor-pointer" onClick={() => {toggleModalAction('Create'); toggleModalHandler()}} />
+              <BsPlusSquareFill size={25} className="text-green cursor-pointer" onClick={() => {toggleModalAction('Create'); setArticle(null); toggleModalHandler()}} />
             </div>
 
             {/*Sub header*/}
@@ -145,7 +157,7 @@ export const Profile = () => {
                             <BsSunglasses size={17} className="text-gray" />
                           </div>
                           <div className="bg-green p-1 rounded-md cursor-pointer">
-                            <BiEdit size={17} className="text-gray" onClick={() => {toggleModalAction('Edit'); toggleModalHandler()}} />
+                            <BiEdit size={17} className="text-gray" onClick={() => {toggleModalAction('Edit'); getArticleById(article.id); toggleModalHandler()}} />
                           </div>
                           <div className="bg-red-600 p-1 rounded-md cursor-pointer">
                             <MdDelete size={17} className="text-gray" />
