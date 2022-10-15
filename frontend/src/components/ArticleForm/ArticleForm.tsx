@@ -10,6 +10,7 @@ export const ArticleForm = (props: ArticleFormProps) => {
   const [formInput, setFormInput] = useState({title: '', description: ''})
 
   const formInputHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    e.preventDefault()
     e.persist()
     setFormInput(prevState => ({...prevState, [e.target.name]: e.target.value}))
   }
@@ -55,18 +56,20 @@ export const ArticleForm = (props: ArticleFormProps) => {
           <div className="mt-5 flex flex-col space-y-1 items-start w-10/12">
             <label htmlFor="title" className="text-sm">Title</label>
             <input onChange={formInputHandler} type="text" placeholder="Article title" name="title" className="w-full border border-solid border-lightGreen outline-green rounded-lg px-2 py-1 placeholder:text-sm text-lg transition
-          ease-in-out" defaultValue={(article ? article.title : '')} />
+          ease-in-out" defaultValue={(article ? article.title : '')} disabled={(action === 'View' ? true : false)} />
           </div>
 
           <div className="mt-2 flex flex-col space-y-1 items-start w-10/12">
             <label htmlFor="description" className="text-sm">Description</label>
             <textarea onChange={formInputHandler} placeholder="Description" rows={13} name="description" className="w-full border border-solid border-lightGreen outline-green rounded-lg px-2 py-1 placeholder:text-sm text-lg transition
-          ease-in-out" defaultValue={(article ? article.description : '')}></textarea>
+          ease-in-out" defaultValue={(article ? article.description : '')} disabled={(action === 'View' ? true : false)}></textarea>
           </div>
 
-          <div className="mt-3 text-sm">
-            <Button value={action === 'Edit' ? 'Update' : action} hidden={false} />
-          </div>
+          {action !== 'View' ? (
+            <div className="mt-3 text-sm">
+              <Button value={action === 'Edit' ? 'Update' : action} hidden={false} />
+            </div>
+          ) : ''}
 
 
         </form>

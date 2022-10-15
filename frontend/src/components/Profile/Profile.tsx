@@ -162,10 +162,10 @@ export const Profile = () => {
                       <td className="p-2">
                         <div className="flex text-md space-x-2 items-center">
                           <div className="bg-blue-600 p-1 rounded-md cursor-pointer">
-                            <BsSunglasses size={17} className="text-gray" />
+                            <BsSunglasses size={17} className="text-gray" onClick={async () => {toggleModalAction('View'); await getArticleById(article.id); toggleModalHandler()}} />
                           </div>
                           <div className="bg-green p-1 rounded-md cursor-pointer">
-                            <BiEdit size={17} className="text-gray" onClick={() => {toggleModalAction('Edit'); getArticleById(article.id); toggleModalHandler()}} />
+                            <BiEdit size={17} className="text-gray" onClick={async () => {toggleModalAction('Edit'); await getArticleById(article.id); toggleModalHandler()}} />
                           </div>
                           <div className="bg-red-600 p-1 rounded-md cursor-pointer">
                             <MdDelete size={17} className="text-gray" onClick={() => {setArticleId(article.id); toggleConfirmModalHandler()}} />

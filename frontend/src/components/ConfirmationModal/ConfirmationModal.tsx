@@ -22,7 +22,7 @@ export const ConfirmationModal = (props: ConfirmationModalProps) => {
   return (
     <div className="top-0 left-0 fixed h-screen w-screen bg-lightGray/80 z-[100]" onClick={toggleModalHandler}>
       <div className="flex h-screen w-screen justify-center items-center">
-        <form className="flex flex-col items-center justify-center bg-gray shadow-2xl w-4/5 px-5 py-5 rounded-lg" onSubmit={deleteHandler} onClick={e => e.stopPropagation()}>
+        <form className="flex flex-col items-center justify-center bg-gray shadow-2xl w-2/5 px-5 py-5 rounded-lg" onSubmit={deleteHandler} onClick={e => e.stopPropagation()}>
           <div className="flex justify-end w-full">
             <button className="text-xl font-bold text-green" onClick={toggleModalHandler}>
               <AiOutlineClose />
