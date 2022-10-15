@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {MdDashboard, MdDelete} from 'react-icons/md'
 import {FaUsers, FaSignOutAlt, FaUserCircle} from 'react-icons/fa'
-import {BsFillFileEarmarkPostFill as PostIcon, BsSunglasses} from 'react-icons/bs'
+import {BsFillFileEarmarkPostFill as PostIcon, BsSunglasses, BsPlusSquareFill} from 'react-icons/bs'
 import {BiSearchAlt, BiEdit} from 'react-icons/bi'
 import {Article} from '../../constants/Article.model'
 import {ArticleForm} from '../ArticleForm/ArticleForm'
@@ -21,6 +21,10 @@ export const Profile = () => {
     setOpenModal(!openModal)
   }
 
+  const toggleModalAction = (a: string) => {
+    setModalAction(a)
+  }
+
   const auth = useAuth()
   const navigate = useNavigate()
 
@@ -29,7 +33,7 @@ export const Profile = () => {
   const [articlesPerPage] = useState(5)
 
   const getArticles = async () => {
-    const {data} = await axios.get('/api/articles')
+    const {data} = await axios.get('/api/articles/latest')
     setArticles(
       data.filter((obj: Article) => {
         return obj.user_id === auth.user?.id
@@ -105,9 +109,7 @@ export const Profile = () => {
                 <h1 className="font-bold text-lg tracking-wide">Articles</h1>
                 <p className="text-lightGray text-xs">Below listed articles are yours</p>
               </div>
-              <div>
-                <button onClick={toggleModalHandler}> Create </button>
-              </div>
+              <BsPlusSquareFill size={25} className="text-green cursor-pointer" onClick={() => {toggleModalAction('Create'); toggleModalHandler()}} />
             </div>
 
             {/*Sub header*/}
@@ -133,19 +135,19 @@ export const Profile = () => {
                   const created_at = new Date(article.created_at)
                   const updated_at = new Date(article.updated_at)
                   return (
-                    <tr key={article.id} className="rounded-lg hover:bg-lightGreen">
+                    <tr key={article.id} className="rounded-lg hover:bg-lightGreen even:bg-veryLightGreen transition ease-in-out">
                       <td className="p-2 text-lg break-word">{article.title}</td>
                       <td className="p-2 text-sm text-lightGray">{created_at.toDateString()}</td>
                       <td className="p-2 text-sm text-lightGray">{updated_at.toDateString()}</td>
                       <td className="p-2">
                         <div className="flex text-md space-x-2 items-center">
-                          <div className="bg-blue-600 p-1 rounded-md">
+                          <div className="bg-blue-600 p-1 rounded-md cursor-pointer">
                             <BsSunglasses size={17} className="text-gray" />
                           </div>
-                          <div className="bg-green p-1 rounded-md">
-                            <BiEdit size={17} className="text-gray" />
+                          <div className="bg-green p-1 rounded-md cursor-pointer">
+                            <BiEdit size={17} className="text-gray" onClick={() => {toggleModalAction('Edit'); toggleModalHandler()}} />
                           </div>
-                          <div className="bg-red-600 p-1 rounded-md">
+                          <div className="bg-red-600 p-1 rounded-md cursor-pointer">
                             <MdDelete size={17} className="text-gray" />
                           </div>
                         </div>

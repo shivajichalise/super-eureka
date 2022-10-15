@@ -26,12 +26,13 @@ class ArticleController extends Controller
    */
   public function store(Request $request)
   {
-    $request->validate([
+    $formFields = $request->validate([
       'title' => 'required',
-      'text' => 'required'
+      'description' => 'required'
     ]);
 
-    return Article::create($request->all());
+    $formFields['user_id'] = auth()->id();
+    return Article::create($formFields);
   }
 
   /**

@@ -23,7 +23,7 @@ export const Sidebar = () => {
             <h1 className="text-lg">{article.title}</h1>
             <div className="text-sm opacity-40">{updated_at.toDateString()}</div>
             <p className="text-sm">
-              {article.text.length <= 600 ? article.text : article.text.substring(0, 600) + '...'}
+              {article.description.length <= 600 ? article.description : article.description.substring(0, 600) + '...'}
             </p>
           </div>
         )
