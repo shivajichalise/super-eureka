@@ -6,6 +6,7 @@ import {BsFillFileEarmarkPostFill as PostIcon, BsSunglasses, BsPlusSquareFill} f
 import {BiSearchAlt, BiEdit} from 'react-icons/bi'
 import {Article} from '../../constants/Article.model'
 import {ArticleForm} from '../ArticleForm/ArticleForm'
+import {ConfirmationModal} from '../ConfirmationModal/ConfirmationModal'
 import {Pagination} from '../Pagination/Pagination'
 import axios from 'axios'
 import {useAuth} from '../../utils/useAuth'
@@ -15,11 +16,17 @@ import {logout} from '../../utils/auth'
 export const Profile = () => {
 
   const [article, setArticle] = useState<Article | null>(null)
-  const [openModal, setOpenModal] = useState(false)
+  const [articleId, setArticleId] = useState(0)
+  const [openFormModal, setOpenFormModal] = useState(false)
+  const [openConfirmModal, setOpenConfirmModal] = useState(false)
   const [modalAction, setModalAction] = useState('Create')
 
   const toggleModalHandler = () => {
-    setOpenModal(!openModal)
+    setOpenFormModal(!openFormModal)
+  }
+
+  const toggleConfirmModalHandler = () => {
+    setOpenConfirmModal(!openConfirmModal)
   }
 
   const toggleModalAction = (a: string) => {
@@ -80,7 +87,8 @@ export const Profile = () => {
 
   return (
     <>
-      <ArticleForm action={modalAction} state={openModal} toggleModalHandler={toggleModalHandler} article={article} />
+      <ArticleForm action={modalAction} state={openFormModal} toggleModalHandler={toggleModalHandler} article={article} />
+      <ConfirmationModal articleId={articleId} state={openConfirmModal} toggleModalHandler={toggleConfirmModalHandler} />
       <div className="relative p-7">
         <div className="flex justify-between">
           <div className="flex flex-col w-1/5  p-3">
@@ -160,7 +168,7 @@ export const Profile = () => {
                             <BiEdit size={17} className="text-gray" onClick={() => {toggleModalAction('Edit'); getArticleById(article.id); toggleModalHandler()}} />
                           </div>
                           <div className="bg-red-600 p-1 rounded-md cursor-pointer">
-                            <MdDelete size={17} className="text-gray" />
+                            <MdDelete size={17} className="text-gray" onClick={() => {setArticleId(article.id); toggleConfirmModalHandler()}} />
                           </div>
                         </div>
                       </td>
