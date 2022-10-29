@@ -12,8 +12,11 @@ import axios from 'axios'
 import {useAuth} from '../../utils/useAuth'
 import {http} from '../../utils/http'
 import {logout} from '../../utils/auth'
+import {Loader} from '../Loader/Loader'
 
 export const Profile = () => {
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const [article, setArticle] = useState<Article | null>(null)
   const [articleId, setArticleId] = useState(0)
@@ -58,6 +61,7 @@ export const Profile = () => {
         return obj.user_id === auth.user?.id
       })
     )
+    setIsLoading(false)
   }
 
   // get current article
@@ -151,30 +155,35 @@ export const Profile = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentArticles.map(article => {
-                  const created_at = new Date(article.created_at)
-                  const updated_at = new Date(article.updated_at)
-                  return (
-                    <tr key={article.id} className="rounded-lg hover:bg-lightGreen even:bg-veryLightGreen transition ease-in-out">
-                      <td className="p-2 text-lg break-word">{article.title}</td>
-                      <td className="p-2 text-sm text-lightGray">{created_at.toDateString()}</td>
-                      <td className="p-2 text-sm text-lightGray">{updated_at.toDateString()}</td>
-                      <td className="p-2">
-                        <div className="flex text-md space-x-2 items-center">
-                          <div className="bg-blue-600 p-1 rounded-md cursor-pointer">
-                            <BsSunglasses size={17} className="text-gray" onClick={async () => {toggleModalAction('View'); await getArticleById(article.id); toggleModalHandler()}} />
+                {isLoading ? (
+                  <tr>
+                    <th colSpan={4}><Loader size={20} /></th>
+                  </tr>
+                ) :
+                  (currentArticles.map(article => {
+                    const created_at = new Date(article.created_at)
+                    const updated_at = new Date(article.updated_at)
+                    return (
+                      <tr key={article.id} className="rounded-lg hover:bg-lightGreen even:bg-veryLightGreen transition ease-in-out">
+                        <td className="p-2 text-lg break-word">{article.title}</td>
+                        <td className="p-2 text-sm text-lightGray">{created_at.toDateString()}</td>
+                        <td className="p-2 text-sm text-lightGray">{updated_at.toDateString()}</td>
+                        <td className="p-2">
+                          <div className="flex text-md space-x-2 items-center">
+                            <div className="bg-blue-600 p-1 rounded-md cursor-pointer">
+                              <BsSunglasses size={17} className="text-gray" onClick={async () => {toggleModalAction('View'); await getArticleById(article.id); toggleModalHandler()}} />
+                            </div>
+                            <div className="bg-green p-1 rounded-md cursor-pointer">
+                              <BiEdit size={17} className="text-gray" onClick={async () => {toggleModalAction('Edit'); await getArticleById(article.id); toggleModalHandler()}} />
+                            </div>
+                            <div className="bg-red-600 p-1 rounded-md cursor-pointer">
+                              <MdDelete size={17} className="text-gray" onClick={() => {setArticleId(article.id); toggleConfirmModalHandler()}} />
+                            </div>
                           </div>
-                          <div className="bg-green p-1 rounded-md cursor-pointer">
-                            <BiEdit size={17} className="text-gray" onClick={async () => {toggleModalAction('Edit'); await getArticleById(article.id); toggleModalHandler()}} />
-                          </div>
-                          <div className="bg-red-600 p-1 rounded-md cursor-pointer">
-                            <MdDelete size={17} className="text-gray" onClick={() => {setArticleId(article.id); toggleConfirmModalHandler()}} />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
+                        </td>
+                      </tr>
+                    )
+                  }))}
               </tbody>
             </table>
 

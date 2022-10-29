@@ -4,8 +4,11 @@ import {http} from '../../utils/http'
 import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
 import {useAuth} from '../../utils/useAuth'
+import {Loader} from '../Loader/Loader'
 
 export const RegisterForm = () => {
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const auth = useAuth()
   const navigate = useNavigate()
@@ -19,6 +22,7 @@ export const RegisterForm = () => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
     // console.log(formInput)
 
     http().post('/api/register', formInput).then(response => {
@@ -39,6 +43,7 @@ export const RegisterForm = () => {
       <div className="container px-7 mb-10 mx-auto">
         <div className="flex items-center justify-center px-20 text-center rounded-lg">
           <form onSubmit={submitHandler}>
+            {isLoading && <Loader size={20} />}
             <div className="flex flex-col md:flex-row w-full shadow-2xl">
               {/*Left*/}
               <div className="flex flex-col items-center justify-start min-h-full w-full pt-2 pl-5 pr-5 pb-5 rounded-t-lg md:w-3/5 md:rounded-tr-none md:rounded-l-lg">

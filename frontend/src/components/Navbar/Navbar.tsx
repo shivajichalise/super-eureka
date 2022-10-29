@@ -41,7 +41,7 @@ export const Navbar = () => {
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="pt-2">
-          <h1 className="w-full text-2xl">Super Eureka</h1>
+         <Link to="/"> <h1 className="w-full text-2xl">Super Eureka</h1></Link>
         </div>
 
         {/* Menu Items */}
