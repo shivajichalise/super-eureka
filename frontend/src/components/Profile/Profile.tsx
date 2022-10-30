@@ -13,6 +13,7 @@ import {useAuth} from '../../utils/useAuth'
 import {http} from '../../utils/http'
 import {logout} from '../../utils/auth'
 import {Loader} from '../Loader/Loader'
+import {Message} from '../Message/Message'
 
 export const Profile = () => {
 

@@ -10,13 +10,13 @@ export const http = () => {
     withCredentials: true
   })
 
-  http.interceptors.response.use(response => response, error => {
-    if (error.response.status === 401) {
-      logout()
-      return Promise.reject()
-    }
-    return Promise.reject(error)
-  })
+  // http.interceptors.response.use(response => response, error => {
+  //   if (error.response.status === 401) {
+  //     logout()
+  //     return Promise.reject()
+  //   }
+  //   return Promise.reject(error)
+  // })
 
   return http
 }

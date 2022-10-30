@@ -6,10 +6,12 @@ import {Button} from '../Button/Button'
 import woman from '../../assets/woman.jpg'
 import {useAuth} from '../../utils/useAuth'
 import {Loader} from '../Loader/Loader'
+import {Message} from '../Message/Message'
 
 export const LoginForm = () => {
 
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<null | string>(null)
 
   const auth = useAuth()
   const navigate = useNavigate()
@@ -30,7 +32,8 @@ export const LoginForm = () => {
 
     http().post('/api/login', formInput).then(response => {
       if (response.data.error) {
-        console.log(response.data.error)
+        // setError(response.data.error);
+        // console.log(response.data.error)
       } else {
         const {user} = response.data
         // console.log(user)
@@ -38,6 +41,10 @@ export const LoginForm = () => {
         login(user.name)
         navigate(redirectPath, {replace: true})
       }
+    }).catch(error => {
+      setError(error.response.data.message)
+      setIsLoading(false)
+      // console.log(error.response.data.message)
     })
   }
 
@@ -51,6 +58,7 @@ export const LoginForm = () => {
         <div className="flex items-center justify-center px-20 text-center rounded-lg">
           <form onSubmit={submitHandler}>
             {isLoading && <Loader size={20} />}
+            {error && <Message type="warn" message={error} />}
             <div className="flex flex-col md:flex-row w-full shadow-2xl">
               {/*Left*/}
               <div className="flex flex-col items-center justify-start min-h-full w-full pt-2 pl-5 pr-5 pb-5 rounded-t-lg md:w-3/5 md:rounded-tr-none md:rounded-l-lg">
